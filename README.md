@@ -49,6 +49,10 @@ This writes `dist/chrome` and `dist/firefox`. Use `pnpm dev` to rebuild on save.
 
 **Firefox 128 or later:** open `about:debugging#/runtime/this-firefox`, click **Load Temporary Add-on** and pick `dist/firefox/manifest.json`. If the button does not appear on YouTube, open the extension's permissions in `about:addons` and allow it on www.youtube.com.
 
+## Release
+
+Publish a GitHub release with a tag like `v0.2.0`. A workflow then checks, tests and builds the extension, and attaches `oldest-first-chrome-0.2.0.zip` and `oldest-first-firefox-0.2.0.zip` to the release. The tag sets the version, so it must be numbers only.
+
 ## How it works
 
 Every channel has hidden "uploads" playlists, newest first: `UU…` for everything, `UULF…` for videos, `UUSH…` for Shorts and `UULV…` for live streams. The extension reads the ones you selected, reverses the order, then creates playlists and adds videos the same way the site's own Save button does, using your signed-in session.
