@@ -15,7 +15,8 @@ const TARGETS = [PLAYLIST_PAGE_TARGET, 'ytd-playlist-panel-renderer #header-cont
 // The shared .btn styles read these tokens, so the overlay variant only swaps them.
 const barCss = `
 :host { display: block; margin-top: 12px; }
-.btn { display: flex; width: 100%; }
+.btn { display: flex; width: 100%; height: 40px; border-radius: 20px; }
+.btn svg { width: 24px; height: 24px; }
 :host([data-surface="overlay"]) {
   --of-text: var(--of-overlay-text);
   --of-tonal: var(--of-overlay-tonal);

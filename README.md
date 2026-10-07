@@ -1,4 +1,4 @@
-# Oldest First for YouTube
+# yt-chronological
 
 A browser extension that saves every upload from a YouTube channel into real playlists in your account, ordered from the first video to the latest. Channels with more than 5,000 uploads are split into numbered parts, because that is the most a YouTube playlist can hold.
 
@@ -22,7 +22,7 @@ When a part ends, the next part starts automatically, unless autoplay is off.
 
 A set can hold several channels in the same playlists, ordered by publish date across all of them. That suits a creator with a second channel, or a series split over a few channels.
 
-- **From the new channel:** open Oldest first on it and pick an existing set under **Save to**.
+- **From the new channel:** open yt-chronological on it and pick an existing set under **Save to**.
 - **From a set:** open its details, choose **Add a channel**, and paste a channel link, a video link or an @handle.
 - **Per channel:** click a channel in a set's details to change which of its Videos, Shorts and Live streams are included, or to remove it from the set.
 
@@ -57,7 +57,7 @@ pnpm release
 
 This publishes the next version as a GitHub release. Versions are CalVer, `YYYY.MM.DD.n`, where `n` counts releases made that day. It only runs from a clean `main` that matches `origin/main`, and asks before publishing.
 
-Publishing creates the tag and starts a workflow that checks, tests and builds the extension, then attaches `oldest-first-chrome-<version>.zip` and `oldest-first-firefox-<version>.zip` to the release. Browsers reject leading zeros, so the manifest gets `2026.10.7.1` for the tag `2026.10.07.1`.
+Publishing creates the tag and starts a workflow that checks, tests and builds the extension, then attaches `yt-chronological-chrome-<version>.zip` and `yt-chronological-firefox-<version>.zip` to the release. Browsers reject leading zeros, so the manifest gets `2026.10.7.1` for the tag `2026.10.07.1`.
 
 ## How it works
 
@@ -93,6 +93,18 @@ pnpm typecheck
 
 ```bash
 pnpm test
+```
+
+The icon's source is `icons/icon.svg`. After changing it, regenerate the PNG sizes, which needs `rsvg-convert` (`brew install librsvg`):
+
+```bash
+pnpm icons
+```
+
+The Chrome Web Store images in `store/` (five 1280x800 screenshots and the 440x280 promo tile) are rendered from the real interface on a mock page. Regenerate them after interface changes, which needs Google Chrome and ImageMagick:
+
+```bash
+pnpm screenshots
 ```
 
 To work on the interface without touching YouTube, run the preview. It shows every screen and button state with sample data, in light and dark, at http://localhost:5174.

@@ -85,7 +85,7 @@ export async function openDialog(): Promise<void> {
       model: {
         icon: 'account',
         title: 'Sign in to save playlists',
-        text: 'Oldest first saves playlists to your YouTube account. Sign in, then try again.',
+        text: 'yt-chronological saves playlists to your YouTube account. Sign in, then try again.',
       },
     });
     return;
@@ -100,7 +100,7 @@ export async function openDialog(): Promise<void> {
         model: {
           icon: 'sortOldestFirst',
           title: 'Open a channel first',
-          text: 'Go to a channel page or one of its videos, then open Oldest first again.',
+          text: 'Go to a channel page or one of its videos, then open yt-chronological again.',
         },
       });
       return;

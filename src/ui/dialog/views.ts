@@ -100,7 +100,7 @@ export function renderLoading(close: () => void): Content[] {
       h(
         'div',
         { class: 'titles' },
-        h('p', { class: 'eyebrow' }, 'Oldest first'),
+        h('p', { class: 'eyebrow' }, 'yt-chronological'),
         h('h2', { id: 'oldest-first-title' }, h('span', { class: 'skeleton wide', 'aria-label': 'Loading channel' })),
       ),
       closeButton(close),
@@ -138,7 +138,7 @@ export function renderSetup(model: SetupModel, act: SetupActions): Content[] {
   else if (selectedTotal !== null) saveLabel = `${verb} ${count(selectedTotal, 'video')}`;
 
   return [
-    head({ title: channel.title, avatars: [channel.avatarUrl] }, 'Oldest first', act.close),
+    head({ title: channel.title, avatars: [channel.avatarUrl] }, 'yt-chronological', act.close),
     bannerElement(model.banner),
     h(
       'p',
@@ -223,7 +223,7 @@ export function renderSet(model: SetModel, act: SetActions): Content[] {
   );
 
   return [
-    head({ title: setName(set), avatars: set.members.map((member) => member.avatarUrl) }, 'Oldest first', act.close),
+    head({ title: setName(set), avatars: set.members.map((member) => member.avatarUrl) }, 'yt-chronological', act.close),
     bannerElement(model.banner),
     journey,
     complete

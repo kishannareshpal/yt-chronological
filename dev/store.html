@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>yt-chronological store screenshots</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --yt-sys-color-baseline--text-primary: #f1f1f1;
+        --yt-sys-color-baseline--text-secondary: #aaa;
+        --yt-sys-color-baseline--base-background: #0f0f0f;
+        --yt-sys-color-baseline--menu-background: #282828;
+        --yt-sys-color-baseline--tonal-background: rgba(255, 255, 255, 0.1);
+        --yt-sys-color-baseline--mono-tonal-hover: rgba(255, 255, 255, 0.2);
+        --yt-sys-color-baseline--mono-filled-hover: #d9d9d9;
+        --yt-sys-color-baseline--outline: rgba(255, 255, 255, 0.2);
+        --yt-sys-color-baseline--call-to-action: #3ea6ff;
+      }
+      * { box-sizing: border-box; }
+      html, body { margin: 0; width: 1280px; height: 800px; overflow: hidden; }
+      body { background: radial-gradient(120% 90% at 50% 0%, #4a0505 0%, #1a0202 45%, #0b0b0b 100%); color: #f1f1f1; font-family: Roboto, Arial, sans-serif; }
+      p { margin: 0; }
+
+      .frame { display: flex; flex-direction: column; align-items: center; height: 800px; padding: 44px 64px 0; }
+      .caption { text-align: center; margin-bottom: 32px; }
+      .caption h1 { margin: 0 0 10px; font-size: 42px; line-height: 50px; font-weight: 700; letter-spacing: -0.5px; }
+      .caption p { color: #d6c3c3; font-size: 19px; line-height: 26px; }
+
+      .window { width: 1120px; flex: 1; overflow: hidden; border-radius: 16px 16px 0 0; background: #0f0f0f; box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6); border: 1px solid rgba(255, 255, 255, 0.08); border-bottom: 0; }
+      .window-bar { display: flex; gap: 8px; padding: 14px 16px; background: #1b1b1b; }
+      .window-bar span { width: 12px; height: 12px; border-radius: 50%; background: #3a3a3a; }
+      .page { position: relative; height: 100%; overflow: hidden; }
+      .stack { position: relative; height: 100%; }
+
+      .channel { padding: 0 40px; }
+      .banner { height: 120px; margin: 16px 0 20px; border-radius: 12px; background: linear-gradient(110deg, #c2410c, #7c2d12 45%, #1f2937); }
+      .channel-row { display: flex; gap: 20px; align-items: center; }
+      .channel-avatar { width: 120px; height: 120px; border-radius: 50%; }
+      .channel-info h1 { margin: 0 0 6px; font-size: 32px; }
+      .channel-info > p { color: #aaa; font-size: 14px; margin-bottom: 14px; }
+      .channel-actions { display: flex; align-items: center; }
+      .subscribe { display: inline-block; height: 40px; padding: 0 16px; border-radius: 20px; background: #f1f1f1; color: #0f0f0f; font-weight: 500; font-size: 14px; line-height: 40px; }
+      .tabs { display: flex; gap: 28px; margin-top: 22px; padding-bottom: 10px; border-bottom: 1px solid rgba(255, 255, 255, 0.15); color: #aaa; font-weight: 500; }
+      .tabs .active { color: #f1f1f1; box-shadow: 0 12px 0 -10px #f1f1f1; }
+      .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 18px; }
+      .thumb { position: relative; aspect-ratio: 16 / 9; border-radius: 10px; }
+      .thumb.small { width: 100px; flex: none; border-radius: 6px; }
+      .duration { position: absolute; right: 6px; bottom: 6px; padding: 1px 4px; border-radius: 4px; background: rgba(0, 0, 0, 0.8); font-size: 12px; font-weight: 500; }
+      .thumb.small .duration { font-size: 10px; right: 4px; bottom: 4px; }
+      .card-title { margin-top: 10px; font-weight: 500; font-size: 14px; line-height: 20px; }
+      .card-meta { color: #aaa; font-size: 12px; line-height: 18px; }
+
+      .overlay { position: absolute; inset: 0; display: grid; place-items: center; background: rgba(0, 0, 0, 0.55); padding-bottom: 40px; }
+      .overlay.aside { place-items: center end; padding: 0 40px 40px 0; background: none; }
+
+      .watch { display: flex; gap: 24px; padding: 20px 24px; }
+      .watch-main { flex: 1; }
+      .player { position: relative; aspect-ratio: 16 / 9; border-radius: 12px; background: linear-gradient(135deg, hsl(140 45% 30%), hsl(200 45% 14%)); }
+      .player-bar { position: absolute; left: 16px; right: 16px; bottom: 16px; height: 4px; border-radius: 2px; background: rgba(255, 255, 255, 0.3); }
+      .player-progress { width: 46%; height: 100%; border-radius: 2px; background: #f03; }
+      .watch-title { margin: 14px 0 12px; font-size: 20px; }
+      .owner { display: flex; align-items: center; gap: 12px; }
+      .owner-avatar { width: 40px; height: 40px; border-radius: 50%; }
+      .owner strong { font-size: 16px; }
+      .owner .subscribe { margin-left: 12px; }
+      .panel { width: 380px; flex: none; border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 12px; overflow: hidden; }
+      .panel-head { padding: 14px 16px; background: #212121; }
+      .panel-head strong { font-size: 18px; }
+      .panel-item { display: flex; align-items: center; gap: 10px; padding: 8px 12px 8px 4px; }
+      .panel-item.current { background: rgba(255, 255, 255, 0.1); }
+      .panel-index { width: 24px; flex: none; text-align: center; color: #aaa; font-size: 12px; }
+      .panel-title { font-size: 14px; font-weight: 500; line-height: 18px; }
+
+      body.promo { width: 440px; height: 280px; }
+      .promo-tile { display: flex; align-items: center; gap: 22px; width: 440px; height: 280px; padding: 0 36px; }
+      .promo-tile img { width: 112px; height: 112px; flex: none; }
+      .promo-name { font-size: 30px; font-weight: 700; letter-spacing: -0.3px; }
+      .promo-tagline { margin-top: 8px; color: #d6c3c3; font-size: 17px; line-height: 23px; }
+    </style>
+  </head>
+  <body>
+    <script src="build/store.js"></script>
+  </body>
+</html>

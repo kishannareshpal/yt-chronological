@@ -25,12 +25,18 @@ export type EntryState =
   | { kind: 'resume'; label: string }
   | { kind: 'continue'; started: boolean; label: string; href: string | null };
 
+// Sized like YouTube's own action buttons (Subscribe, Like, Share): 40px tall, 24px icons, 8px apart.
 const buttonCss = `
 :host { display: inline-flex; margin-left: 8px; vertical-align: middle; }
+/* On narrow channel pages YouTube gives Subscribe a full-width row, so this button takes the next one. */
+:host([data-layout="stacked"]) { display: flex; width: 100%; margin: 8px 0 0; }
+:host([data-layout="stacked"]) .group, :host([data-layout="stacked"]) .main { flex: 1; }
 .group { display: inline-flex; align-items: center; }
-.group .btn { font-size: 14px; }
-.split .main { border-radius: 18px 0 0 18px; padding-right: 12px; }
-.split .more { width: 36px; padding: 0; border-radius: 0 18px 18px 0; }
+.btn { height: 40px; padding: 0 16px; border-radius: 20px; font-size: 14px; line-height: 20px; }
+.btn.with-icon { padding-left: 12px; }
+.btn svg { width: 24px; height: 24px; }
+.split .main { border-radius: 20px 0 0 20px; padding-right: 12px; }
+.split .more { width: 40px; padding: 0; border-radius: 0 20px 20px 0; }
 .split .more::before {
   content: "";
   position: absolute;
@@ -42,10 +48,11 @@ const buttonCss = `
 }
 .more { position: relative; }
 .counter { font-variant-numeric: tabular-nums; color: var(--of-text-secondary); }
-.ring { width: 18px; height: 18px; flex: none; }
+.ring { width: 20px; height: 20px; flex: none; margin: 0 2px; }
 .ring circle { fill: none; stroke-width: 3; }
 .ring .bg { stroke: var(--of-tonal-hover); }
 .ring .value { stroke: var(--of-brand); stroke-linecap: round; transition: stroke-dashoffset 400ms var(--of-ease-out); }
+.spinner { width: 18px; height: 18px; margin: 0 1px; }
 `;
 
 export function keepEntryButtonsMounted(openDialog: () => void): void {
@@ -57,9 +64,12 @@ export function keepEntryButtonsMounted(openDialog: () => void): void {
       for (const container of document.querySelectorAll(TARGETS)) {
         if (container.querySelector(TARGETS)) continue;
         const existing = container.querySelector<HTMLElement>(`:scope > ${TAG}`);
-        if (existing?.dataset.state === stateKey) continue;
+        const layout = container.querySelector(':scope > .ytFlexibleActionsViewModelActionRow') ? 'stacked' : 'inline';
+        if (existing?.dataset.state === stateKey && existing.dataset.layout === layout) continue;
         existing?.remove();
-        container.append(createButton(state, stateKey, openDialog));
+        const button = createButton(state, stateKey, openDialog);
+        button.dataset.layout = layout;
+        container.append(button);
       }
     },
     [SAVE_SESSION_CHANGED, SAVED_SETS_CHANGED, LAST_WATCHED_CHANGED, 'yt-navigate-finish'],
@@ -133,7 +143,7 @@ function buttonContent(state: EntryState, openDialog: () => void): Node[] {
     case 'continue': {
       if (!state.href) {
         // Already on the video you would continue from, so the only useful action is the options.
-        return [button({ title: 'Oldest first options' }, svgIcon(ICONS.sortOldestFirst), 'Oldest first', h('span', { class: 'counter' }, state.label))];
+        return [button({ title: 'yt-chronological options' }, svgIcon(ICONS.sortOldestFirst), 'Oldest first', h('span', { class: 'counter' }, state.label))];
       }
       const main = state.started
         ? [svgIcon(ICONS.play), 'Continue', h('span', { class: 'counter' }, state.label)]
@@ -146,7 +156,7 @@ function buttonContent(state: EntryState, openDialog: () => void): Node[] {
         ),
         h(
           'button',
-          { type: 'button', class: 'btn more', 'aria-label': 'Oldest first options', title: 'Oldest first options', onClick: openDialog },
+          { type: 'button', class: 'btn more', 'aria-label': 'yt-chronological options', title: 'yt-chronological options', onClick: openDialog },
           svgIcon(ICONS.chevronDown),
         ),
       ];

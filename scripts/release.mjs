@@ -25,7 +25,7 @@ const version = nextVersion(new Date(), parseRemoteTags(git('ls-remote', '--tags
 
 const prompt = createInterface({ input: process.stdin, output: process.stdout });
 console.log('Creates the git tag and a GitHub Release, which starts the release workflow.');
-const answer = await prompt.question(`Publish Oldest First ${version}? [y/N] `);
+const answer = await prompt.question(`Publish yt-chronological ${version}? [y/N] `);
 prompt.close();
 if (!/^y(es)?$/i.test(answer.trim())) fail('cancelled');
 

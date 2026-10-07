@@ -146,7 +146,7 @@ const screens: [string, () => Content[]][] = [
     'Signed out',
     () =>
       renderMessage(
-        { icon: 'account', title: 'Sign in to save playlists', text: 'Oldest first saves playlists to your YouTube account. Sign in, then try again.' },
+        { icon: 'account', title: 'Sign in to save playlists', text: 'yt-chronological saves playlists to your YouTube account. Sign in, then try again.' },
         noop,
       ),
   ],

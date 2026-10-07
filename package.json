@@ -10,7 +10,9 @@
     "typecheck": "tsc --noEmit",
     "test": "node --test 'src/**/*.test.ts' 'scripts/**/*.test.mjs'",
     "preview": "node scripts/preview.mjs",
-    "release": "node scripts/release.mjs"
+    "release": "node scripts/release.mjs",
+    "icons": "node scripts/icons.mjs",
+    "screenshots": "node scripts/screenshots.mjs"
   },
   "devDependencies": {
     "@types/chrome": "^0.3.4",
