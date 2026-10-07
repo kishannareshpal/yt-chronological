@@ -51,7 +51,13 @@ This writes `dist/chrome` and `dist/firefox`. Use `pnpm dev` to rebuild on save.
 
 ## Release
 
-Publish a GitHub release with a tag like `v0.2.0`. A workflow then checks, tests and builds the extension, and attaches `oldest-first-chrome-0.2.0.zip` and `oldest-first-firefox-0.2.0.zip` to the release. The tag sets the version, so it must be numbers only.
+```bash
+pnpm release
+```
+
+This publishes the next version as a GitHub release. Versions are CalVer, `YYYY.MM.DD.n`, where `n` counts releases made that day. It only runs from a clean `main` that matches `origin/main`, and asks before publishing.
+
+Publishing creates the tag and starts a workflow that checks, tests and builds the extension, then attaches `oldest-first-chrome-<version>.zip` and `oldest-first-firefox-<version>.zip` to the release. Browsers reject leading zeros, so the manifest gets `2026.10.7.1` for the tag `2026.10.07.1`.
 
 ## How it works
 

@@ -1,8 +1,9 @@
 import * as esbuild from 'esbuild';
 import { mkdir, readFile, rm, writeFile } from 'node:fs/promises';
+import { manifestVersion } from './release-version.mjs';
 
 const watch = process.argv.includes('--watch');
-const { version } = JSON.parse(await readFile('package.json', 'utf8'));
+const version = manifestVersion(JSON.parse(await readFile('package.json', 'utf8')).version);
 
 const youtube = ['https://www.youtube.com/*'];
 
