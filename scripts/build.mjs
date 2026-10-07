@@ -14,7 +14,7 @@ const baseManifest = {
   name: 'yt-chronological',
   version,
   description:
-    'Save every upload from a YouTube channel into playlists that play from the first video to the latest.',
+    'Watch any YouTube channel from its first video. Saves every upload into playlists, oldest first, and remembers where you left off.',
   icons,
   action: { default_title: 'Save this channel oldest first', default_icon: { 16: icons[16], 32: icons[32] } },
   content_scripts: [

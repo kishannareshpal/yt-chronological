@@ -1,114 +1,50 @@
-# yt-chronological
+<div align="center">
+  <img src="icons/icon-128.png" alt="yt-chronological icon" width="96" />
+  <h1><code>yt-chronological</code></h1>
+  <p><strong>Watch any YouTube channel from its very first video</strong></p>
+  <p>Saves every upload into playlists in your account, oldest first,<br />and remembers where you left off.</p>
+  <p>
+    <a href="#install">Install</a> ·
+    <a href="#using-it">Using it</a> ·
+    <a href="CONTRIBUTING.md">Contributing</a>
+  </p>
+</div>
 
-A browser extension that saves every upload from a YouTube channel into real playlists in your account, ordered from the first video to the latest. Channels with more than 5,000 uploads are split into numbered parts, because that is the most a YouTube playlist can hold.
+<p align="center"><img src="store/screenshot-1.png" alt="The Continue button next to Subscribe on a channel page" width="720" /></p>
 
-## Use it
+## Install
 
-1. Open a channel page (`youtube.com/@name`) or any video from that channel.
-2. Click **Oldest first** next to the Subscribe button, or click the extension's toolbar icon.
-3. Pick what to include. Each type shows how many uploads it has. Choose who can see the playlists, then click **Save 192 videos**.
-4. Keep browsing while it saves. The button next to Subscribe shows the progress, and a message appears when it is done.
+Download the zip for your browser from the [latest release](https://github.com/kishannareshpal/yt-chronological/releases/latest) and unzip it.
 
-From then on, the button next to Subscribe reads **Continue · 37 of 192** and takes you straight back to where you left off. The arrow beside it opens the details.
+- **Chrome, Arc, Brave, Edge:** open `chrome://extensions`, turn on Developer mode, click **Load unpacked** and pick the unzipped folder.
+- **Firefox:** open `about:debugging#/runtime/this-firefox`, click **Load Temporary Add-on** and pick `manifest.json` in the unzipped folder. If the button does not show on YouTube, allow the extension on www.youtube.com from `about:addons`.
 
-A video counts as watched once you have seen 30 seconds of it, so opening the playlist at video 1 does not lose your place. You can also continue from:
+Developers can build from source instead. See [CONTRIBUTING.md](CONTRIBUTING.md).
 
-- **Continue from video 37** under Play all on the playlist page, and under the title of the playlist panel beside a video.
-- The details window, which shows how far along you are, each part, and whether the channel has new uploads.
+## Requirements
 
-When a part ends, the next part starts automatically, unless autoplay is off.
+- Chrome 111 or later (or another Chromium browser), or Firefox 128 or later
+- Signed in to YouTube, because the playlists are saved to your account
 
-## Join channels
+## Using it
 
-A set can hold several channels in the same playlists, ordered by publish date across all of them. That suits a creator with a second channel, or a series split over a few channels.
+1. Open a channel page or any of its videos.
+2. Click **Oldest first** next to Subscribe, or the extension's toolbar icon.
+3. Pick what to include (Videos, Shorts, Live streams) and who can see the playlists, then save.
 
-- **From the new channel:** open yt-chronological on it and pick an existing set under **Save to**.
-- **From a set:** open its details, choose **Add a channel**, and paste a channel link, a video link or an @handle.
-- **Per channel:** click a channel in a set's details to change which of its Videos, Shorts and Live streams are included, or to remove it from the set.
+From then on the button next to Subscribe reads **Continue · 37 of 192** and takes you straight back to where you left off. The arrow beside it opens the details, where you can add new uploads, resume an interrupted save or manage the channels in a set.
 
-The existing playlists are updated in place. Videos that no longer belong are removed, missing ones are added, and the rest are moved into date order with as few moves as possible, the same way dragging works on YouTube. Merging needs each video's exact publish date, which is looked up once (about 30 videos a second) and remembered. If a set shrinks enough that a part is no longer needed, that playlist is deleted.
+- **Your place:** a video counts once you have watched 30 seconds of it, so opening the playlist at video 1 does not lose it. **Continue from video 37** also shows under Play all and beside the video.
+- **Big channels:** a playlist holds up to 5,000 videos, so bigger channels are split into parts. The next part starts on its own when one ends.
+- **Joining channels:** add a second channel to a set, from its details or from the new channel's setup, and everything is merged by publish date in your existing playlists. Each channel keeps its own choice of Videos, Shorts and Live streams, and can be removed again.
 
-The details window also lets you:
+## Good to know
 
-- **Add to playlist** when there are new uploads. They are appended, starting a new part when the last one is full. If a channel grows past one playlist, the first one is renamed to "Part 1".
-- **Resume saving** if a save was interrupted. Progress is kept after every batch of 100 videos.
+- It only talks to YouTube itself. There are no analytics, no servers and no accounts besides your own. See the [privacy policy](https://kishanjadav.com/yt-chronological/privacy/).
+- Your place and saved sets live in this browser profile. Watching on your phone or TV does not move your place.
+- Saving runs in the YouTube tab. Browsing around YouTube is fine, but closing the tab pauses it until you resume.
+- It uses YouTube's own internal web API, the same one the site uses. It is undocumented, so a YouTube update could break it.
 
-## Install for development
+## Contributing
 
-```bash
-pnpm install
-```
-
-```bash
-pnpm build
-```
-
-This writes `dist/chrome` and `dist/firefox`. Use `pnpm dev` to rebuild on save.
-
-**Chrome, Arc, Brave, Edge:** open `chrome://extensions`, turn on Developer mode, click **Load unpacked** and pick `dist/chrome`.
-
-**Firefox 128 or later:** open `about:debugging#/runtime/this-firefox`, click **Load Temporary Add-on** and pick `dist/firefox/manifest.json`. If the button does not appear on YouTube, open the extension's permissions in `about:addons` and allow it on www.youtube.com.
-
-## Release
-
-```bash
-pnpm release
-```
-
-This publishes the next version as a GitHub release. Versions are CalVer, `YYYY.MM.DD.n`, where `n` counts releases made that day. It only runs from a clean `main` that matches `origin/main`, and asks before publishing.
-
-Publishing creates the tag and starts a workflow that checks, tests and builds the extension, then attaches `yt-chronological-chrome-<version>.zip` and `yt-chronological-firefox-<version>.zip` to the release. Browsers reject leading zeros, so the manifest gets `2026.10.7.1` for the tag `2026.10.07.1`.
-
-## How it works
-
-Every channel has hidden "uploads" playlists, newest first: `UU…` for everything, `UULF…` for videos, `UUSH…` for Shorts and `UULV…` for live streams. The extension reads the ones you selected, reverses the order, then creates playlists and adds videos the same way the site's own Save button does, using your signed-in session.
-
-- Nothing is sent anywhere except youtube.com. No API key and no Google Cloud project are needed.
-- Writes are spaced about a second apart and retried with backoff if YouTube asks it to slow down.
-- Progress and your place in each channel are stored in your browser's local storage for youtube.com, so they are per browser profile. Watching on your phone or TV does not move your place.
-
-### Caveats
-
-- This relies on YouTube's internal web API. It is the same API the site uses, but it is undocumented and a YouTube update could break it.
-- Saving runs inside the YouTube tab. Navigating within YouTube is fine, but closing or reloading the tab pauses it until you resume.
-
-## Project layout
-
-```
-src/
-  youtube/      API client, signed-in session headers, channel lookup
-  uploads/      reading a channel's uploads, oldest first
-  playlists/    sets, merging by date, splitting into parts, syncing playlists in place, saved progress
-  watching/     remembering the last watched video and where to continue
-  ui/           dialog, in-page button, toast and shared styles
-  main-world.ts runs in the page so it can use YouTube's session
-  bridge.ts     relays the toolbar click into the page
-  background.ts handles the toolbar click
-dev/            preview page for the interface
-```
-
-```bash
-pnpm typecheck
-```
-
-```bash
-pnpm test
-```
-
-The icon's source is `icons/icon.svg`. After changing it, regenerate the PNG sizes, which needs `rsvg-convert` (`brew install librsvg`):
-
-```bash
-pnpm icons
-```
-
-The Chrome Web Store images in `store/` (five 1280x800 screenshots and the 440x280 promo tile) are rendered from the real interface on a mock page. Regenerate them after interface changes, which needs Google Chrome and ImageMagick:
-
-```bash
-pnpm screenshots
-```
-
-To work on the interface without touching YouTube, run the preview. It shows every screen and button state with sample data, in light and dark, at http://localhost:5174.
-
-```bash
-pnpm preview
-```
+See [CONTRIBUTING.md](CONTRIBUTING.md).
