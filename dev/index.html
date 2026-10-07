@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Oldest First preview</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
+    <style>
+      /* YouTube's own theme values, so the preview matches what the extension inherits on the real site. */
+      .light {
+        --yt-sys-color-baseline--text-primary: #0f0f0f;
+        --yt-sys-color-baseline--text-secondary: #606060;
+        --yt-sys-color-baseline--base-background: #fff;
+        --yt-sys-color-baseline--menu-background: #fff;
+        --yt-sys-color-baseline--tonal-background: rgba(0, 0, 0, 0.05);
+        --yt-sys-color-baseline--mono-tonal-hover: rgba(0, 0, 0, 0.1);
+        --yt-sys-color-baseline--mono-filled-hover: #272727;
+        --yt-sys-color-baseline--outline: rgba(0, 0, 0, 0.1);
+        --yt-sys-color-baseline--call-to-action: #065fd4;
+        background: #fff;
+        color: #0f0f0f;
+      }
+      .dark {
+        --yt-sys-color-baseline--text-primary: #f1f1f1;
+        --yt-sys-color-baseline--text-secondary: #aaa;
+        --yt-sys-color-baseline--base-background: #0f0f0f;
+        --yt-sys-color-baseline--menu-background: #282828;
+        --yt-sys-color-baseline--tonal-background: rgba(255, 255, 255, 0.1);
+        --yt-sys-color-baseline--mono-tonal-hover: rgba(255, 255, 255, 0.2);
+        --yt-sys-color-baseline--mono-filled-hover: #d9d9d9;
+        --yt-sys-color-baseline--outline: rgba(255, 255, 255, 0.2);
+        --yt-sys-color-baseline--call-to-action: #3ea6ff;
+        background: #0f0f0f;
+        color: #f1f1f1;
+      }
+      body { margin: 0; font-family: Roboto, Arial, sans-serif; }
+      .toolbar { position: sticky; top: 0; z-index: 10; display: flex; gap: 8px; padding: 12px 16px; background: #333; }
+      .toolbar button { padding: 6px 12px; border: 0; border-radius: 8px; font: inherit; cursor: pointer; }
+      main { display: grid; grid-template-columns: 1fr 1fr; }
+      @media (max-width: 1100px) { main { grid-template-columns: 1fr; } }
+      .column { padding: 24px; }
+      h1 { margin: 0 0 16px; font-size: 22px; }
+      h2 { margin: 32px 0 12px; font-size: 15px; opacity: 0.7; }
+      .row-list { display: grid; gap: 10px; }
+      .entry { display: flex; align-items: center; gap: 8px; }
+      .entry .label { width: 120px; font-size: 12px; opacity: 0.6; }
+      .fake-subscribe { padding: 0 16px; border-radius: 18px; background: var(--yt-sys-color-baseline--text-primary); color: var(--yt-sys-color-baseline--base-background); font-weight: 500; font-size: 14px; line-height: 36px; }
+      .panel { max-width: 400px; padding: 12px; border: 1px solid var(--yt-sys-color-baseline--outline); border-radius: 12px; font-size: 16px; }
+      .artwork { max-width: 400px; margin-top: 12px; padding: 16px; border-radius: 12px; background: linear-gradient(160deg, #6b4a36, #1a1310); }
+      .fake-play { border-radius: 18px; background: #fff; color: #0f0f0f; font-weight: 500; text-align: center; line-height: 36px; }
+      .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(420px, 1fr)); gap: 24px; align-items: start; }
+      .card { margin: 0; }
+      .card figcaption { margin-bottom: 8px; font-size: 12px; opacity: 0.6; }
+    </style>
+  </head>
+  <body>
+    <script src="build/preview.js"></script>
+  </body>
+</html>
